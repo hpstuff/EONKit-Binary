@@ -1,0 +1,573 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.4 effective-5.10 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)
+// swift-module-flags: -target arm64-apple-tvos26.0 -enable-objc-interop -enable-library-evolution -language-mode 5 -O -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature MemberImportVisibility -enable-experimental-feature DebugDescriptionMacro -module-name EONKit -package-name eonkit
+// swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.4
+import CommonCrypto
+import CryptoKit
+import Foundation
+import Security
+import Swift
+import UIKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+@_Concurrency::MainActor @preconcurrency public struct ClientCredentials : Swift::Sendable {
+  @_Concurrency::MainActor @preconcurrency public let androidTVClientID: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let androidTVClientSecret: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let webClientID: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let webClientSecret: Swift::String
+  @_Concurrency::MainActor @preconcurrency public init(androidTVClientID: Swift::String, androidTVClientSecret: Swift::String, webClientID: Swift::String, webClientSecret: Swift::String)
+}
+@_Concurrency::MainActor @preconcurrency public enum EONSDK {
+  nonisolated public static func configure(credentials: EONKit::ClientCredentials)
+}
+@_Concurrency::MainActor @preconcurrency public enum ClientIdentity : Swift::String {
+  case androidTV
+  case web
+  @_Concurrency::MainActor @preconcurrency public var id: Swift::String {
+    get
+  }
+  @_Concurrency::MainActor @preconcurrency public var secret: Swift::String {
+    get
+  }
+  @_Concurrency::MainActor @preconcurrency public var basicAuth: Swift::String {
+    get
+  }
+  nonisolated public init?(rawValue: Swift::String)
+  public typealias RawValue = Swift::String
+  nonisolated public var rawValue: Swift::String {
+    get
+  }
+}
+@_Concurrency::MainActor @preconcurrency public struct Constants {
+  @_Concurrency::MainActor @preconcurrency public static let deviceClient: EONKit::ClientIdentity
+  @_Concurrency::MainActor @preconcurrency public static let passwordClient: EONKit::ClientIdentity
+  @_Concurrency::MainActor @preconcurrency public static let platform: Swift::String
+}
+public actor DeviceStore {
+  public init()
+  public func serial() -> Swift::String
+  public func registration() -> EONKit::Device?
+  public func save(_ device: EONKit::Device)
+  public func clearRegistration()
+  @objc deinit
+  @_semantics("defaultActor") nonisolated final public var unownedExecutor: _Concurrency::UnownedSerialExecutor {
+    get
+  }
+}
+@_Concurrency::MainActor @preconcurrency final public class AuthInterceptor : EONKit::Interceptor {
+  @_Concurrency::MainActor @preconcurrency public init(tokenStore: EONKit::TokenStore, loginService: EONKit::LoginService)
+  @_Concurrency::MainActor @preconcurrency final public func interceptRequest(_ request: Foundation::URLRequest) async throws -> Foundation::URLRequest
+  @_Concurrency::MainActor @preconcurrency final public func interceptResponse(_ data: Foundation::Data, _ response: Foundation::URLResponse, for request: Foundation::URLRequest) async throws -> (Foundation::Data, Foundation::URLResponse)
+  @objc @_Concurrency::MainActor deinit
+}
+@_Concurrency::MainActor @preconcurrency final public class CacheInterceptor : EONKit::Interceptor {
+  @_Concurrency::MainActor @preconcurrency public init(cache: Foundation::URLCache = .shared)
+  @_Concurrency::MainActor @preconcurrency final public func interceptRequest(_ request: Foundation::URLRequest) async throws -> Foundation::URLRequest
+  @_Concurrency::MainActor @preconcurrency final public func interceptResponse(_ data: Foundation::Data, _ response: Foundation::URLResponse, for request: Foundation::URLRequest) async throws -> (Foundation::Data, Foundation::URLResponse)
+  @_Concurrency::MainActor @preconcurrency final public func interceptError(_ error: any Swift::Error, for request: Foundation::URLRequest) async throws -> (Foundation::Data, Foundation::URLResponse)
+  @objc @_Concurrency::MainActor deinit
+}
+@_Concurrency::MainActor @preconcurrency public struct HeadersInterceptor : EONKit::Interceptor {
+  @_Concurrency::MainActor @preconcurrency public init()
+  @_Concurrency::MainActor @preconcurrency public func interceptRequest(_ request: Foundation::URLRequest) async throws -> Foundation::URLRequest
+}
+@_Concurrency::MainActor @preconcurrency public struct LoggingInterceptor : EONKit::Interceptor {
+  @_Concurrency::MainActor @preconcurrency public init()
+  @_Concurrency::MainActor @preconcurrency public func interceptRequest(_ request: Foundation::URLRequest) async throws -> Foundation::URLRequest
+  @_Concurrency::MainActor @preconcurrency public func interceptResponse(_ data: Foundation::Data, _ response: Foundation::URLResponse, for request: Foundation::URLRequest) async throws -> (Foundation::Data, Foundation::URLResponse)
+}
+@_Concurrency::MainActor @preconcurrency final public class NetworkClient {
+  @_Concurrency::MainActor @preconcurrency public init(session: Foundation::URLSession = .shared, interceptors: [any EONKit::Interceptor])
+  @_Concurrency::MainActor @preconcurrency final public func addInterceptor(interceptor: any EONKit::Interceptor)
+  @_Concurrency::MainActor @preconcurrency final public func send(_ request: Foundation::URLRequest) async throws -> (Foundation::Data, Foundation::URLResponse)
+  @_Concurrency::MainActor @preconcurrency final public func get(_ url: Foundation::URL, headers: [Swift::String : Swift::String]? = nil) async throws -> (Foundation::Data, Foundation::URLResponse)
+  @_Concurrency::MainActor @preconcurrency final public func post(_ url: Foundation::URL, data: Foundation::Data? = nil, headers: [Swift::String : Swift::String]? = nil) async throws -> (Foundation::Data, Foundation::URLResponse)
+  @objc @_Concurrency::MainActor deinit
+}
+@_Concurrency::MainActor @preconcurrency public protocol Interceptor {
+  @_Concurrency::MainActor @preconcurrency func interceptRequest(_ request: Foundation::URLRequest) async throws -> Foundation::URLRequest
+  @_Concurrency::MainActor @preconcurrency func interceptResponse(_ data: Foundation::Data, _ response: Foundation::URLResponse, for request: Foundation::URLRequest) async throws -> (Foundation::Data, Foundation::URLResponse)
+  @_Concurrency::MainActor @preconcurrency func interceptError(_ error: any Swift::Error, for request: Foundation::URLRequest) async throws -> (Foundation::Data, Foundation::URLResponse)
+}
+extension EONKit::Interceptor {
+  @_Concurrency::MainActor @preconcurrency public func interceptRequest(_ request: Foundation::URLRequest) async throws -> Foundation::URLRequest
+  @_Concurrency::MainActor @preconcurrency public func interceptResponse(_ data: Foundation::Data, _ response: Foundation::URLResponse, for request: Foundation::URLRequest) async throws -> (Foundation::Data, Foundation::URLResponse)
+  @_Concurrency::MainActor @preconcurrency public func interceptError(_ error: any Swift::Error, for request: Foundation::URLRequest) async throws -> (Foundation::Data, Foundation::URLResponse)
+}
+@_hasMissingDesignatedInitializers @_Concurrency::MainActor @preconcurrency public class ServerTime {
+  @_Concurrency::MainActor @preconcurrency public static let shared: EONKit::ServerTime
+  @_Concurrency::MainActor @preconcurrency public func sync(with serverTimestamp: Any)
+  @_Concurrency::MainActor @preconcurrency public func currentDate() -> Foundation::Date
+  @_Concurrency::MainActor @preconcurrency public func currentTimeInterval() -> Foundation::TimeInterval
+  @_Concurrency::MainActor @preconcurrency public func currentTimeMillis() -> Swift::Int
+  @objc @_Concurrency::MainActor deinit
+}
+public actor TokenStore {
+  public init()
+  public func save(accessToken: Swift::String, refreshToken: Swift::String? = nil) async
+  public func saveStreamKeys(streamKey: Swift::String, streamUn: Swift::String) async
+  public func saveIssuer(_ client: EONKit::ClientIdentity) async
+  public func getIssuer() async -> EONKit::ClientIdentity?
+  public func getStreamKey() async -> Swift::String?
+  public func getStreamUn() async -> Swift::String?
+  public func getAccessToken() async -> Swift::String?
+  public func getRefreshToken() async -> Swift::String?
+  public func getClientAccessToken() async -> Swift::String?
+  public func clear() async
+  @objc deinit
+  @_semantics("defaultActor") nonisolated final public var unownedExecutor: _Concurrency::UnownedSerialExecutor {
+    get
+  }
+}
+@_Concurrency::MainActor @preconcurrency public func isScheduleLive(_ schedule: EONKit::Schedule, liveTime: Swift::Int) -> Swift::Bool
+extension Foundation::Date {
+  @_Concurrency::MainActor @preconcurrency public var startOfTheDay: Foundation::Date {
+    get
+  }
+  @_Concurrency::MainActor @preconcurrency public var timestampSince1970: Swift::Int {
+    get
+  }
+  @_Concurrency::MainActor @preconcurrency public var timestamp: Swift::Int {
+    get
+  }
+  @_Concurrency::MainActor @preconcurrency public var endOfTheDay: Foundation::Date {
+    get
+  }
+  @_Concurrency::MainActor @preconcurrency public func toHourString() -> Swift::String
+  @_Concurrency::MainActor @preconcurrency public func toWeekDayString() -> Swift::String
+}
+@_Concurrency::MainActor @preconcurrency public func hourSize(startTime: Swift::Int, endTime: Swift::Int) -> CoreFoundation::CGFloat
+@_Concurrency::MainActor @preconcurrency public class AuthRepositoryImpl : EONKit::AuthRepository {
+  @_Concurrency::MainActor @preconcurrency public init(loginService: EONKit::LoginService, deviceService: EONKit::DeviceService, configService: EONKit::ConfigService, tokenStore: EONKit::TokenStore, deviceStore: EONKit::DeviceStore, profile: EONKit::DeviceProfile)
+  @_Concurrency::MainActor @preconcurrency public func login(username: Swift::String, password: Swift::String) async throws -> EONKit::Household
+  @_Concurrency::MainActor @preconcurrency public func requestOneTimeCode() async throws -> EONKit::OneTimeCode
+  @_Concurrency::MainActor @preconcurrency public func login(oneTimeCode: EONKit::OneTimeCode) async throws -> EONKit::Household
+  @_Concurrency::MainActor @preconcurrency public func getHousehold() async throws -> EONKit::Household
+  @_Concurrency::MainActor @preconcurrency public func registeredDevice() async -> EONKit::Device?
+  @objc @_Concurrency::MainActor deinit
+}
+@_Concurrency::MainActor @preconcurrency public class ChannelsRepositoryImpl : EONKit::ChannelsRepository {
+  @_Concurrency::MainActor @preconcurrency public init(channelsService: EONKit::ChannelsService)
+  @_Concurrency::MainActor @preconcurrency public func getChannels() async throws -> [EONKit::Channel]
+  @_Concurrency::MainActor @preconcurrency public func getCategories() async throws -> [EONKit::ChannelCategory]
+  @objc @_Concurrency::MainActor deinit
+}
+@_Concurrency::MainActor @preconcurrency public class EpgRepositoryImpl : EONKit::EpgRepository {
+  @_Concurrency::MainActor @preconcurrency public init(epgService: EONKit::EpgService, streamingService: EONKit::StreamingService)
+  @_Concurrency::MainActor @preconcurrency public func getSchedule(forChannel channel: EONKit::Channel) async throws -> [EONKit::Schedule]
+  @_Concurrency::MainActor @preconcurrency public func getSchedule(forChannel channel: EONKit::Channel, forDay day: Foundation::Date) async throws -> [EONKit::Schedule]
+  @_Concurrency::MainActor @preconcurrency public func getSchedule(forChannels channels: [EONKit::Channel]) async throws -> [Swift::Int : [EONKit::Schedule]]
+  @_Concurrency::MainActor @preconcurrency public func getSchedule(forChannels channels: [EONKit::Channel], forDay day: Foundation::Date) async throws -> [Swift::Int : [EONKit::Schedule]]
+  @objc @_Concurrency::MainActor deinit
+}
+@_Concurrency::MainActor @preconcurrency public class StreamingRepositoryImpl : EONKit::StreamingRepository {
+  @_Concurrency::MainActor @preconcurrency public init(streamingService: EONKit::StreamingService, tokenStore: EONKit::TokenStore, deviceStore: EONKit::DeviceStore)
+  @_Concurrency::MainActor @preconcurrency public func getStreamingUrl(forChannel channel: EONKit::Channel, startTime: Swift::Int? = nil) async throws -> (Foundation::URL, Swift::Int, Swift::Int)
+  @objc @_Concurrency::MainActor deinit
+}
+public enum AuthError : Swift::Error, Swift::Equatable {
+  case deviceNotRegistered
+  case badCredentials
+  case codeNotConfirmed
+  case sessionExpired
+  case grantNotAllowed
+  case platform(code: Swift::String, description: Swift::String)
+  case httpStatus(Swift::Int)
+  public static func == (a: EONKit::AuthError, b: EONKit::AuthError) -> Swift::Bool
+}
+public enum NetworkError : Swift::Error {
+  case invalidURL
+  case noData
+  case decodingError
+  case unknown
+  case missingParams
+  case notConfigured
+  public static func == (a: EONKit::NetworkError, b: EONKit::NetworkError) -> Swift::Bool
+  public func hash(into hasher: inout Swift::Hasher)
+  public var hashValue: Swift::Int {
+    get
+  }
+}
+public enum StreamingError : Swift::Error {
+  case missingData
+  case failToEncryptAES
+  public static func == (a: EONKit::StreamingError, b: EONKit::StreamingError) -> Swift::Bool
+  public func hash(into hasher: inout Swift::Hasher)
+  public var hashValue: Swift::Int {
+    get
+  }
+}
+@_Concurrency::MainActor @preconcurrency public struct ChannelsService {
+  @_Concurrency::MainActor @preconcurrency public init(client: EONKit::NetworkClient, baseURL: Swift::String)
+  @_Concurrency::MainActor @preconcurrency public func getChannels() async throws -> [EONKit::Channel]
+  @_Concurrency::MainActor @preconcurrency public func getCategries() async throws -> [EONKit::Category]
+}
+@_Concurrency::MainActor @preconcurrency public struct ConfigService {
+  @_Concurrency::MainActor @preconcurrency public init(client: EONKit::NetworkClient)
+  @_Concurrency::MainActor @preconcurrency public func getClientToken() async throws -> EONKit::ClientAccessToken
+  @_Concurrency::MainActor @preconcurrency public func cdnInfo(accessToken: Swift::String) async throws -> [EONKit::CdnInfo]
+}
+@_Concurrency::MainActor @preconcurrency public struct DeviceProfile : Swift::Encodable {
+  @_Concurrency::MainActor @preconcurrency public let deviceName: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let deviceType: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let modelName: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let platform: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let clientSwVersion: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let clientSwBuild: Swift::String?
+  @_Concurrency::MainActor @preconcurrency public let systemSwVersion: EONKit::DeviceProfile.EONKit::SystemVersion
+  @_Concurrency::MainActor @preconcurrency public struct SystemVersion : Swift::Encodable {
+    @_Concurrency::MainActor @preconcurrency public let name: Swift::String
+    @_Concurrency::MainActor @preconcurrency public let version: Swift::String
+    @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
+  }
+  @_Concurrency::MainActor @preconcurrency public static var appleTV: EONKit::DeviceProfile {
+    get
+  }
+  @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
+}
+@_Concurrency::MainActor @preconcurrency public struct DeviceService {
+  @_Concurrency::MainActor @preconcurrency public init(client: EONKit::NetworkClient, baseURL: Swift::String)
+  @_Concurrency::MainActor @preconcurrency public func register(profile: EONKit::DeviceProfile, serial: Swift::String, clientToken: Swift::String) async throws -> EONKit::Device
+  @_Concurrency::MainActor @preconcurrency public func requestOneTimeCode(deviceNumber: Swift::String, clientToken: Swift::String) async throws -> EONKit::OneTimeCode
+}
+@_Concurrency::MainActor @preconcurrency public struct EpgService {
+  @_Concurrency::MainActor @preconcurrency public init(client: EONKit::NetworkClient, baseURL: Swift::String)
+  @_Concurrency::MainActor @preconcurrency public func getEpg(forChannel channel: EONKit::Channel, startTime: Swift::Int?, endTime: Swift::Int?) async throws -> [EONKit::Schedule]
+  @_Concurrency::MainActor @preconcurrency public func getEpg(forChannels channels: [EONKit::Channel], startTime: Swift::Int?, endTime: Swift::Int?) async throws -> [Swift::Int : [EONKit::Schedule]]
+}
+@_Concurrency::MainActor @preconcurrency public struct LoginService {
+  @_Concurrency::MainActor @preconcurrency public init(client: EONKit::NetworkClient, baseURL: Swift::String)
+  @_Concurrency::MainActor @preconcurrency public func login(username: Swift::String, password: Swift::String, device: Swift::String) async throws -> EONKit::AccessToken
+  @_Concurrency::MainActor @preconcurrency public func login(oneTimeCode: Swift::String, device: Swift::String) async throws -> EONKit::AccessToken
+  @_Concurrency::MainActor @preconcurrency public func getHousehold() async throws -> EONKit::Household
+  @_Concurrency::MainActor @preconcurrency public func refreshToken(refreshToken: Swift::String, client: EONKit::ClientIdentity) async throws -> EONKit::AccessToken?
+}
+@_Concurrency::MainActor @preconcurrency public struct StreamingService {
+  @_Concurrency::MainActor @preconcurrency public init(client: EONKit::NetworkClient, baseURL: Swift::String)
+  @_Concurrency::MainActor @preconcurrency public func getServers() async throws -> EONKit::Servers
+  @_Concurrency::MainActor @preconcurrency public func getRenderProfiles() async throws -> [EONKit::RenderProfile]
+  @_Concurrency::MainActor @preconcurrency public func getProvider() async throws -> EONKit::Provider
+  @_Concurrency::MainActor @preconcurrency public func getTime() async throws -> EONKit::Time
+}
+@_Concurrency::MainActor @preconcurrency public struct AccessToken : Swift::Codable {
+  @_Concurrency::MainActor @preconcurrency public let access_token: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let refresh_token: Swift::String?
+  @_Concurrency::MainActor @preconcurrency public let token_type: Swift::String?
+  @_Concurrency::MainActor @preconcurrency public let stream_key: Swift::String?
+  @_Concurrency::MainActor @preconcurrency public let stream_un: Swift::String?
+  @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
+  @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
+}
+@_Concurrency::MainActor @preconcurrency public struct Category : Swift::Identifiable, Swift::Codable {
+  @_Concurrency::MainActor @preconcurrency public let id: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public let name: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let defaultList: Swift::Bool
+  @_Concurrency::MainActor @preconcurrency public let channels: [EONKit::ChannelOrder]
+  public typealias ID = Swift::Int
+  @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
+  @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
+}
+@_Concurrency::MainActor @preconcurrency public struct ChannelOrder : Swift::Identifiable, Swift::Codable {
+  @_Concurrency::MainActor @preconcurrency public let id: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public let position: Swift::Int
+  public typealias ID = Swift::Int
+  @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
+  @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
+}
+@_Concurrency::MainActor @preconcurrency public struct CdnInfo : Swift::Identifiable, Swift::Codable {
+  @_Concurrency::MainActor @preconcurrency public let id: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public let identifier: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let domains: EONKit::Domains
+  public typealias ID = Swift::Int
+  @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
+  @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
+}
+@_Concurrency::MainActor @preconcurrency public struct Domains : Swift::Codable {
+  @_Concurrency::MainActor @preconcurrency public let baseApi: EONKit::Domain
+  @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
+  @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
+}
+@_Concurrency::MainActor @preconcurrency public struct Domain : Swift::Codable {
+  @_Concurrency::MainActor @preconcurrency public let af31: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let be: Swift::String
+  @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
+  @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
+}
+@_Concurrency::MainActor @preconcurrency public struct Channel : Swift::Identifiable, Swift::Codable {
+  @_Concurrency::MainActor @preconcurrency public init(id: Swift::Int, name: Swift::String, shortName: Swift::String, images: [EONKit::ChannelImage], baseURL: Swift::String? = nil, publishingPoint: [EONKit::PublishingPoint], subscribed: Swift::Bool, drmRequired: Swift::Bool, castEnabled: Swift::Bool, liveEnabled: Swift::Bool, cutvEnabled: Swift::Bool, drEnabled: Swift::Bool, aaEnabled: Swift::Bool, startOverEnabled: Swift::Bool, cutvDelay: Swift::Int)
+  @_Concurrency::MainActor @preconcurrency public let id: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public let name: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let shortName: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let images: [EONKit::ChannelImage]
+  @_Concurrency::MainActor @preconcurrency public var baseURL: Swift::String?
+  @_Concurrency::MainActor @preconcurrency public var image: EONKit::ChannelImage {
+    get
+  }
+  @_Concurrency::MainActor @preconcurrency public var logo: Swift::String {
+    get
+  }
+  @_Concurrency::MainActor @preconcurrency public let publishingPoint: [EONKit::PublishingPoint]
+  @_Concurrency::MainActor @preconcurrency public let subscribed: Swift::Bool
+  @_Concurrency::MainActor @preconcurrency public let drmRequired: Swift::Bool
+  @_Concurrency::MainActor @preconcurrency public let castEnabled: Swift::Bool
+  @_Concurrency::MainActor @preconcurrency public let liveEnabled: Swift::Bool
+  @_Concurrency::MainActor @preconcurrency public let cutvEnabled: Swift::Bool
+  @_Concurrency::MainActor @preconcurrency public let drEnabled: Swift::Bool
+  @_Concurrency::MainActor @preconcurrency public let aaEnabled: Swift::Bool
+  @_Concurrency::MainActor @preconcurrency public let startOverEnabled: Swift::Bool
+  @_Concurrency::MainActor @preconcurrency public let cutvDelay: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public var liveConfig: EONKit::PlayerConfig? {
+    get
+  }
+  @_Concurrency::MainActor @preconcurrency public var cutvConfig: EONKit::PlayerConfig? {
+    get
+  }
+  public typealias ID = Swift::Int
+  @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
+  @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
+}
+@_Concurrency::MainActor @preconcurrency public struct ChannelImage : Swift::Codable {
+  @_Concurrency::MainActor @preconcurrency public init(path: Swift::String, width: Swift::Int, height: Swift::Int, size: Swift::String, type: Swift::String)
+  @_Concurrency::MainActor @preconcurrency public let path: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let width: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public let height: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public let size: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let type: Swift::String
+  @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
+  @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
+}
+@_Concurrency::MainActor @preconcurrency public struct PublishingPoint : Swift::Codable {
+  @_Concurrency::MainActor @preconcurrency public init(publishingPoint: Swift::String, audioLanguage: Swift::String, subtitleLanguage: Swift::String, profileIds: [Swift::Int], playerCfgs: [EONKit::PlayerConfig])
+  @_Concurrency::MainActor @preconcurrency public let publishingPoint: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let audioLanguage: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let subtitleLanguage: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let profileIds: [Swift::Int]
+  @_Concurrency::MainActor @preconcurrency public let playerCfgs: [EONKit::PlayerConfig]
+  @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
+  @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
+}
+@_Concurrency::MainActor @preconcurrency public struct PlayerConfig : Swift::Identifiable, Swift::Codable {
+  @_Concurrency::MainActor @preconcurrency public init(id: Swift::Int, type: Swift::String, sig: Swift::String)
+  @_Concurrency::MainActor @preconcurrency public let id: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public let type: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let sig: Swift::String
+  public typealias ID = Swift::Int
+  @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
+  @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
+}
+extension EONKit::Channel : Swift::Equatable, Swift::Hashable {
+  @_Concurrency::MainActor @preconcurrency public static func == (lhs: EONKit::Channel, rhs: EONKit::Channel) -> Swift::Bool
+  @_Concurrency::MainActor @preconcurrency public func hash(into hasher: inout Swift::Hasher)
+  @_Concurrency::MainActor @preconcurrency public var hashValue: Swift::Int {
+    get
+  }
+}
+@_Concurrency::MainActor @preconcurrency public struct ChannelCategory : Swift::Identifiable {
+  @_Concurrency::MainActor @preconcurrency public let id: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public let name: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let defaultList: Swift::Bool
+  @_Concurrency::MainActor @preconcurrency public let channels: [EONKit::Channel]
+  @_Concurrency::MainActor @preconcurrency public init(id: Swift::Int, name: Swift::String, defaultList: Swift::Bool, channels: [EONKit::Channel])
+  public typealias ID = Swift::Int
+}
+extension EONKit::ChannelCategory : Swift::Equatable, Swift::Hashable {
+  @_Concurrency::MainActor @preconcurrency public static func == (lhs: EONKit::ChannelCategory, rhs: EONKit::ChannelCategory) -> Swift::Bool
+  @_Concurrency::MainActor @preconcurrency public func hash(into hasher: inout Swift::Hasher)
+  @_Concurrency::MainActor @preconcurrency public var hashValue: Swift::Int {
+    get
+  }
+}
+@_Concurrency::MainActor @preconcurrency public struct ClientAccessToken : Swift::Codable {
+  @_Concurrency::MainActor @preconcurrency public let scope: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let access_token: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let token_type: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let expires_in: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public let jti: Swift::String
+  @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
+  @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
+}
+@_Concurrency::MainActor @preconcurrency public struct Device : Swift::Codable, Swift::Equatable {
+  @_Concurrency::MainActor @preconcurrency public let deviceId: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public let deviceNumber: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let friendlyId: Swift::String
+  @_Concurrency::MainActor @preconcurrency public init(deviceId: Swift::Int, deviceNumber: Swift::String, friendlyId: Swift::String)
+  @_Concurrency::MainActor @preconcurrency public static func == (a: EONKit::Device, b: EONKit::Device) -> Swift::Bool
+  @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
+  @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
+}
+@_Concurrency::MainActor @preconcurrency public struct OneTimeCode : Swift::Codable, Swift::Equatable {
+  @_Concurrency::MainActor @preconcurrency public let otp: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let expiresInSeconds: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public init(otp: Swift::String, expiresInSeconds: Swift::Int)
+  @_Concurrency::MainActor @preconcurrency public static func == (a: EONKit::OneTimeCode, b: EONKit::OneTimeCode) -> Swift::Bool
+  @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
+  @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
+}
+@_Concurrency::MainActor @preconcurrency public struct Household : Swift::Identifiable, Swift::Codable {
+  @_Concurrency::MainActor @preconcurrency public init(id: Swift::Int, contractNumber: Swift::String, buyerId: Swift::String, packageName: Swift::String)
+  @_Concurrency::MainActor @preconcurrency public let id: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public let contractNumber: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let buyerId: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let packageName: Swift::String
+  public typealias ID = Swift::Int
+  @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
+  @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
+}
+@_Concurrency::MainActor @preconcurrency public struct Provider : Swift::Identifiable, Swift::Codable {
+  @_Concurrency::MainActor @preconcurrency public let id: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public let name: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let identifier: Swift::String
+  public typealias ID = Swift::Int
+  @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
+  @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
+}
+@_Concurrency::MainActor @preconcurrency public struct RenderProfile : Swift::Identifiable, Swift::Codable {
+  @_Concurrency::MainActor @preconcurrency public let id: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public let name: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let coreStreamId: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let height: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public let width: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public let audioBitrate: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public let videoBitrate: Swift::Int
+  public typealias ID = Swift::Int
+  @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
+  @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
+}
+@_Concurrency::MainActor @preconcurrency public struct Schedule : Swift::Identifiable, Swift::Codable {
+  @_Concurrency::MainActor @preconcurrency public init(id: Swift::Int, title: Swift::String, originalTitle: Swift::String?, shortDescription: Swift::String?, channelId: Swift::Int, startTime: Swift::Int, endTime: Swift::Int, seasonNumber: Swift::Int?, episodeNumber: Swift::Int?, live: Swift::Bool, images: [EONKit::ChannelImage], baseURL: Swift::String? = nil)
+  @_Concurrency::MainActor @preconcurrency public let id: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public let title: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let originalTitle: Swift::String?
+  @_Concurrency::MainActor @preconcurrency public let shortDescription: Swift::String?
+  @_Concurrency::MainActor @preconcurrency public let channelId: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public let startTime: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public let endTime: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public let seasonNumber: Swift::Int?
+  @_Concurrency::MainActor @preconcurrency public let episodeNumber: Swift::Int?
+  @_Concurrency::MainActor @preconcurrency public var live: Swift::Bool
+  @_Concurrency::MainActor @preconcurrency public var seasonAndEpisode: Swift::String? {
+    get
+  }
+  @_Concurrency::MainActor @preconcurrency public let images: [EONKit::ChannelImage]
+  @_Concurrency::MainActor @preconcurrency public var baseURL: Swift::String?
+  @_Concurrency::MainActor @preconcurrency public var image: EONKit::ChannelImage? {
+    get
+  }
+  @_Concurrency::MainActor @preconcurrency public var poster: Swift::String {
+    get
+  }
+  public typealias ID = Swift::Int
+  @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
+  @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
+}
+extension EONKit::Schedule : Swift::Equatable, Swift::Hashable {
+  @_Concurrency::MainActor @preconcurrency public static func == (lhs: EONKit::Schedule, rhs: EONKit::Schedule) -> Swift::Bool
+  @_Concurrency::MainActor @preconcurrency public func hash(into hasher: inout Swift::Hasher)
+  @_Concurrency::MainActor @preconcurrency public var hashValue: Swift::Int {
+    get
+  }
+}
+extension EONKit::Schedule {
+  @_Concurrency::MainActor @preconcurrency public var size: CoreFoundation::CGFloat {
+    get
+  }
+}
+@_Concurrency::MainActor @preconcurrency public struct Servers : Swift::Codable {
+  @_Concurrency::MainActor @preconcurrency public let live_servers: [EONKit::Server]
+  @_Concurrency::MainActor @preconcurrency public let live_servers_id: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let live_servers_retry: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public let timeshift_servers: [EONKit::Server]
+  @_Concurrency::MainActor @preconcurrency public let timeshift_servers_id: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let timeshift_servers_retry: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public let vod_servers: [EONKit::Server]
+  @_Concurrency::MainActor @preconcurrency public let vod_servers_id: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let vod_servers_retry: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public let push_servers: [EONKit::Server]
+  @_Concurrency::MainActor @preconcurrency public let push_servers_id: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let push_servers_retry: Swift::Int
+  @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
+  @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
+}
+@_Concurrency::MainActor @preconcurrency public struct Server : Swift::Identifiable, Swift::Codable {
+  @_Concurrency::MainActor @preconcurrency public let id: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let ip: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let hostname: Swift::String
+  public typealias ID = Swift::String
+  @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
+  @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
+}
+@_Concurrency::MainActor @preconcurrency public struct Time : Swift::Codable {
+  @_Concurrency::MainActor @preconcurrency public let time: Swift::String
+  @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
+  @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
+}
+@_Concurrency::MainActor @preconcurrency public protocol AuthRepository {
+  @_Concurrency::MainActor @preconcurrency func login(username: Swift::String, password: Swift::String) async throws -> EONKit::Household
+  @_Concurrency::MainActor @preconcurrency func requestOneTimeCode() async throws -> EONKit::OneTimeCode
+  @_Concurrency::MainActor @preconcurrency func login(oneTimeCode: EONKit::OneTimeCode) async throws -> EONKit::Household
+  @_Concurrency::MainActor @preconcurrency func getHousehold() async throws -> EONKit::Household
+  @_Concurrency::MainActor @preconcurrency func registeredDevice() async -> EONKit::Device?
+}
+@_Concurrency::MainActor @preconcurrency public protocol ChannelsRepository {
+  @_Concurrency::MainActor @preconcurrency func getChannels() async throws -> [EONKit::Channel]
+  @_Concurrency::MainActor @preconcurrency func getCategories() async throws -> [EONKit::ChannelCategory]
+}
+@_Concurrency::MainActor @preconcurrency public protocol EpgRepository {
+  @_Concurrency::MainActor @preconcurrency func getSchedule(forChannel: EONKit::Channel) async throws -> [EONKit::Schedule]
+  @_Concurrency::MainActor @preconcurrency func getSchedule(forChannel: EONKit::Channel, forDay day: Foundation::Date) async throws -> [EONKit::Schedule]
+  @_Concurrency::MainActor @preconcurrency func getSchedule(forChannels: [EONKit::Channel]) async throws -> [Swift::Int : [EONKit::Schedule]]
+  @_Concurrency::MainActor @preconcurrency func getSchedule(forChannels: [EONKit::Channel], forDay day: Foundation::Date) async throws -> [Swift::Int : [EONKit::Schedule]]
+}
+@_Concurrency::MainActor @preconcurrency public protocol StreamingRepository {
+  @_Concurrency::MainActor @preconcurrency func getStreamingUrl(forChannel: EONKit::Channel, startTime: Swift::Int?) async throws -> (Foundation::URL, Swift::Int, Swift::Int)
+}
+extension EONKit::EONSDK : Swift::Sendable {}
+extension EONKit::ClientIdentity : Swift::Equatable {}
+extension EONKit::ClientIdentity : Swift::Hashable {}
+extension EONKit::ClientIdentity : Swift::RawRepresentable {}
+extension EONKit::ClientIdentity : Swift::Sendable {}
+extension EONKit::Constants : Swift::Sendable {}
+extension EONKit::AuthInterceptor : Swift::Sendable {}
+extension EONKit::CacheInterceptor : Swift::Sendable {}
+extension EONKit::HeadersInterceptor : Swift::Sendable {}
+extension EONKit::LoggingInterceptor : Swift::Sendable {}
+extension EONKit::NetworkClient : Swift::Sendable {}
+extension EONKit::ServerTime : Swift::Sendable {}
+extension EONKit::AuthRepositoryImpl : Swift::Sendable {}
+extension EONKit::ChannelsRepositoryImpl : Swift::Sendable {}
+extension EONKit::EpgRepositoryImpl : Swift::Sendable {}
+extension EONKit::StreamingRepositoryImpl : Swift::Sendable {}
+extension EONKit::NetworkError : Swift::Equatable {}
+extension EONKit::NetworkError : Swift::Hashable {}
+extension EONKit::StreamingError : Swift::Equatable {}
+extension EONKit::StreamingError : Swift::Hashable {}
+extension EONKit::ChannelsService : Swift::Sendable {}
+extension EONKit::ConfigService : Swift::Sendable {}
+extension EONKit::DeviceProfile : Swift::Sendable {}
+extension EONKit::DeviceProfile.EONKit::SystemVersion : Swift::Sendable {}
+extension EONKit::DeviceService : Swift::Sendable {}
+extension EONKit::EpgService : Swift::Sendable {}
+extension EONKit::LoginService : Swift::Sendable {}
+extension EONKit::StreamingService : Swift::Sendable {}
+extension EONKit::AccessToken : Swift::Sendable {}
+extension EONKit::Category : Swift::Sendable {}
+extension EONKit::ChannelOrder : Swift::Sendable {}
+extension EONKit::CdnInfo : Swift::Sendable {}
+extension EONKit::Domains : Swift::Sendable {}
+extension EONKit::Domain : Swift::Sendable {}
+extension EONKit::Channel : Swift::Sendable {}
+extension EONKit::ChannelImage : Swift::Sendable {}
+extension EONKit::PublishingPoint : Swift::Sendable {}
+extension EONKit::PlayerConfig : Swift::Sendable {}
+extension EONKit::ChannelCategory : Swift::Sendable {}
+extension EONKit::ClientAccessToken : Swift::Sendable {}
+extension EONKit::Device : Swift::Sendable {}
+extension EONKit::OneTimeCode : Swift::Sendable {}
+extension EONKit::Household : Swift::Sendable {}
+extension EONKit::Provider : Swift::Sendable {}
+extension EONKit::RenderProfile : Swift::Sendable {}
+extension EONKit::Schedule : Swift::Sendable {}
+extension EONKit::Servers : Swift::Sendable {}
+extension EONKit::Server : Swift::Sendable {}
+extension EONKit::Time : Swift::Sendable {}
