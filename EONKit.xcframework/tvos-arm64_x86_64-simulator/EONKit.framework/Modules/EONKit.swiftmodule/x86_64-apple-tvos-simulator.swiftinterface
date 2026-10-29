@@ -241,6 +241,8 @@ public enum StreamingError : Swift::Error {
 @_Concurrency::MainActor @preconcurrency public struct ConfigService {
   @_Concurrency::MainActor @preconcurrency public init(client: EONKit::NetworkClient)
   @_Concurrency::MainActor @preconcurrency public func getClientToken() async throws -> EONKit::ClientAccessToken
+  @_Concurrency::MainActor @preconcurrency public func cdn(forBrand brand: Swift::String) async throws -> EONKit::CdnInfo
+  @_Concurrency::MainActor @preconcurrency public func brands(accessToken: Swift::String) async throws -> [EONKit::Brand]
   @_Concurrency::MainActor @preconcurrency public func cdnInfo(accessToken: Swift::String) async throws -> [EONKit::CdnInfo]
 }
 @_Concurrency::MainActor @preconcurrency public struct DeviceProfile : Swift::Encodable {
@@ -308,6 +310,14 @@ public enum StreamingError : Swift::Error {
   @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
   @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
 }
+@_Concurrency::MainActor @preconcurrency public struct Brand : Swift::Codable, Swift::Equatable {
+  @_Concurrency::MainActor @preconcurrency public let identifier: Swift::String
+  @_Concurrency::MainActor @preconcurrency public let cdnIdentifier: Swift::String?
+  @_Concurrency::MainActor @preconcurrency public init(identifier: Swift::String, cdnIdentifier: Swift::String? = nil)
+  @_Concurrency::MainActor @preconcurrency public static func == (a: EONKit::Brand, b: EONKit::Brand) -> Swift::Bool
+  @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
+  @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
+}
 @_Concurrency::MainActor @preconcurrency public struct Category : Swift::Identifiable, Swift::Codable {
   @_Concurrency::MainActor @preconcurrency public let id: Swift::Int
   @_Concurrency::MainActor @preconcurrency public let name: Swift::String
@@ -329,9 +339,11 @@ public enum StreamingError : Swift::Error {
   @_Concurrency::MainActor @preconcurrency public let id: Swift::Int
   @_Concurrency::MainActor @preconcurrency public let identifier: Swift::String
   @_Concurrency::MainActor @preconcurrency public let domains: EONKit::Domains
+  @_Concurrency::MainActor @preconcurrency public let isDefault: Swift::Bool
+  @_Concurrency::MainActor @preconcurrency public init(id: Swift::Int, identifier: Swift::String, domains: EONKit::Domains, isDefault: Swift::Bool = false)
+  @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
   public typealias ID = Swift::Int
   @_Concurrency::MainActor @preconcurrency public func encode(to encoder: any Swift::Encoder) throws
-  @_Concurrency::MainActor @preconcurrency public init(from decoder: any Swift::Decoder) throws
 }
 @_Concurrency::MainActor @preconcurrency public struct Domains : Swift::Codable {
   @_Concurrency::MainActor @preconcurrency public let baseApi: EONKit::Domain
@@ -702,6 +714,7 @@ extension EONKit::LoginService : Swift::Sendable {}
 extension EONKit::ProfilesService : Swift::Sendable {}
 extension EONKit::StreamingService : Swift::Sendable {}
 extension EONKit::AccessToken : Swift::Sendable {}
+extension EONKit::Brand : Swift::Sendable {}
 extension EONKit::Category : Swift::Sendable {}
 extension EONKit::ChannelOrder : Swift::Sendable {}
 extension EONKit::CdnInfo : Swift::Sendable {}

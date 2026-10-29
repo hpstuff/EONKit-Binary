@@ -6480,6 +6480,75 @@
           },
           {
             "kind": "Function",
+            "name": "cdn",
+            "printedName": "cdn(forBrand:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CdnInfo",
+                "printedName": "EONKit.CdnInfo",
+                "usr": "s:6EONKit7CdnInfoV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:6EONKit13ConfigServiceV3cdn8forBrandAA7CdnInfoVSS_tYaKF",
+            "mangledName": "$s6EONKit13ConfigServiceV3cdn8forBrandAA7CdnInfoVSS_tYaKF",
+            "moduleName": "EONKit",
+            "declAttributes": [
+              "Preconcurrency",
+              "Custom",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "brands",
+            "printedName": "brands(accessToken:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[EONKit.Brand]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Brand",
+                    "printedName": "EONKit.Brand",
+                    "usr": "s:6EONKit5BrandV"
+                  }
+                ],
+                "usr": "s:Sa"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:6EONKit13ConfigServiceV6brands11accessTokenSayAA5BrandVGSS_tYaKF",
+            "mangledName": "$s6EONKit13ConfigServiceV6brands11accessTokenSayAA5BrandVGSS_tYaKF",
+            "moduleName": "EONKit",
+            "declAttributes": [
+              "Preconcurrency",
+              "Custom",
+              "AccessControl"
+            ],
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
             "name": "cdnInfo",
             "printedName": "cdnInfo(accessToken:)",
             "children": [
@@ -8926,6 +8995,321 @@
       },
       {
         "kind": "TypeDecl",
+        "name": "Brand",
+        "printedName": "Brand",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "identifier",
+            "printedName": "identifier",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:6EONKit5BrandV10identifierSSvp",
+            "mangledName": "$s6EONKit5BrandV10identifierSSvp",
+            "moduleName": "EONKit",
+            "declAttributes": [
+              "Preconcurrency",
+              "Custom",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:6EONKit5BrandV10identifierSSvg",
+                "mangledName": "$s6EONKit5BrandV10identifierSSvg",
+                "moduleName": "EONKit",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "cdnIdentifier",
+            "printedName": "cdnIdentifier",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:6EONKit5BrandV13cdnIdentifierSSSgvp",
+            "mangledName": "$s6EONKit5BrandV13cdnIdentifierSSSgvp",
+            "moduleName": "EONKit",
+            "declAttributes": [
+              "Preconcurrency",
+              "Custom",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:6EONKit5BrandV13cdnIdentifierSSSgvg",
+                "mangledName": "$s6EONKit5BrandV13cdnIdentifierSSSgvg",
+                "moduleName": "EONKit",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(identifier:cdnIdentifier:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Brand",
+                "printedName": "EONKit.Brand",
+                "usr": "s:6EONKit5BrandV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:6EONKit5BrandV10identifier13cdnIdentifierACSS_SSSgtcfc",
+            "mangledName": "$s6EONKit5BrandV10identifier13cdnIdentifierACSS_SSSgtcfc",
+            "moduleName": "EONKit",
+            "declAttributes": [
+              "Preconcurrency",
+              "Custom",
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(from:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Brand",
+                "printedName": "EONKit.Brand",
+                "usr": "s:6EONKit5BrandV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Decoder",
+                "printedName": "any Swift.Decoder",
+                "usr": "s:s7DecoderP"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:6EONKit5BrandV4fromACs7Decoder_p_tKcfc",
+            "mangledName": "$s6EONKit5BrandV4fromACs7Decoder_p_tKcfc",
+            "moduleName": "EONKit",
+            "implicit": true,
+            "declAttributes": [
+              "Preconcurrency",
+              "Custom"
+            ],
+            "throwing": true,
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "encode",
+            "printedName": "encode(to:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Encoder",
+                "printedName": "any Swift.Encoder",
+                "usr": "s:s7EncoderP"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:6EONKit5BrandV6encode2toys7Encoder_p_tKF",
+            "mangledName": "$s6EONKit5BrandV6encode2toys7Encoder_p_tKF",
+            "moduleName": "EONKit",
+            "implicit": true,
+            "declAttributes": [
+              "Preconcurrency",
+              "Custom"
+            ],
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "==",
+            "printedName": "==(_:_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Brand",
+                "printedName": "EONKit.Brand",
+                "usr": "s:6EONKit5BrandV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Brand",
+                "printedName": "EONKit.Brand",
+                "usr": "s:6EONKit5BrandV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:6EONKit5BrandV2eeoiySbAC_ACtFZ",
+            "mangledName": "$s6EONKit5BrandV2eeoiySbAC_ACtFZ",
+            "moduleName": "EONKit",
+            "static": true,
+            "implicit": true,
+            "declAttributes": [
+              "Preconcurrency",
+              "Custom"
+            ],
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:6EONKit5BrandV",
+        "mangledName": "$s6EONKit5BrandV",
+        "moduleName": "EONKit",
+        "declAttributes": [
+          "Preconcurrency",
+          "Custom",
+          "AccessControl",
+          "RawDocComment"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Decodable",
+            "printedName": "Decodable",
+            "usr": "s:Se",
+            "mangledName": "$sSe"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Encodable",
+            "printedName": "Encodable",
+            "usr": "s:SE",
+            "mangledName": "$sSE"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "EONKit"
+      },
+      {
+        "kind": "TypeDecl",
         "name": "Category",
         "printedName": "Category",
         "children": [
@@ -9698,6 +10082,101 @@
             ]
           },
           {
+            "kind": "Var",
+            "name": "isDefault",
+            "printedName": "isDefault",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:6EONKit7CdnInfoV9isDefaultSbvp",
+            "mangledName": "$s6EONKit7CdnInfoV9isDefaultSbvp",
+            "moduleName": "EONKit",
+            "declAttributes": [
+              "Preconcurrency",
+              "Custom",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:6EONKit7CdnInfoV9isDefaultSbvg",
+                "mangledName": "$s6EONKit7CdnInfoV9isDefaultSbvg",
+                "moduleName": "EONKit",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(id:identifier:domains:isDefault:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CdnInfo",
+                "printedName": "EONKit.CdnInfo",
+                "usr": "s:6EONKit7CdnInfoV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Domains",
+                "printedName": "EONKit.Domains",
+                "usr": "s:6EONKit7DomainsV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "hasDefaultArg": true,
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:6EONKit7CdnInfoV2id10identifier7domains9isDefaultACSi_SSAA7DomainsVSbtcfc",
+            "mangledName": "$s6EONKit7CdnInfoV2id10identifier7domains9isDefaultACSi_SSAA7DomainsVSbtcfc",
+            "moduleName": "EONKit",
+            "declAttributes": [
+              "Preconcurrency",
+              "Custom",
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          },
+          {
             "kind": "Constructor",
             "name": "init",
             "printedName": "init(from:)",
@@ -9719,10 +10198,10 @@
             "usr": "s:6EONKit7CdnInfoV4fromACs7Decoder_p_tKcfc",
             "mangledName": "$s6EONKit7CdnInfoV4fromACs7Decoder_p_tKcfc",
             "moduleName": "EONKit",
-            "implicit": true,
             "declAttributes": [
               "Preconcurrency",
-              "Custom"
+              "Custom",
+              "AccessControl"
             ],
             "throwing": true,
             "init_kind": "Designated"
@@ -22658,6 +23137,13 @@
       "offset": 179,
       "length": 1,
       "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/rumen\/Work\/EONKit\/Sources\/EONKit\/Domain\/Entities\/CdnInfo.swift",
+      "kind": "BooleanLiteral",
+      "offset": 340,
+      "length": 5,
+      "value": "false"
     },
     {
       "filePath": "\/Users\/rumen\/Work\/EONKit\/Sources\/EONKit\/Domain\/Entities\/Channel.swift",
