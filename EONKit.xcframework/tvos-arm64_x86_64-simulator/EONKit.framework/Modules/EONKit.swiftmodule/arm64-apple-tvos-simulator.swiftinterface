@@ -1,7 +1,7 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 6.4 effective-5.10 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)
+// swift-compiler-version: Apple Swift version 6.4.2 effective-5.10 (swiftlang-6.4.2.1.9 clang-2100.4.1.1)
 // swift-module-flags: -target arm64-apple-tvos26.0-simulator -enable-objc-interop -enable-library-evolution -language-mode 5 -O -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature MemberImportVisibility -enable-experimental-feature DebugDescriptionMacro -module-name EONKit -package-name eonkit
-// swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.4
+// swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.4.2
 import CommonCrypto
 import CryptoKit
 import Foundation
@@ -59,8 +59,8 @@ public actor DeviceStore {
     get
   }
 }
-@_Concurrency::MainActor @preconcurrency final public class AuthInterceptor : EONKit::Interceptor {
-  @_Concurrency::MainActor @preconcurrency public init(tokenStore: EONKit::TokenStore, loginService: EONKit::LoginService)
+@_hasMissingDesignatedInitializers @_Concurrency::MainActor @preconcurrency final public class AuthInterceptor : EONKit::Interceptor {
+  @_Concurrency::MainActor @preconcurrency convenience public init(tokenStore: EONKit::TokenStore, loginService: EONKit::LoginService)
   @_Concurrency::MainActor @preconcurrency final public func interceptRequest(_ request: Foundation::URLRequest) async throws -> Foundation::URLRequest
   @_Concurrency::MainActor @preconcurrency final public func interceptResponse(_ data: Foundation::Data, _ response: Foundation::URLResponse, for request: Foundation::URLRequest) async throws -> (Foundation::Data, Foundation::URLResponse)
   @objc @_Concurrency::MainActor deinit
@@ -118,7 +118,7 @@ extension EONKit::Interceptor {
   @_Concurrency::MainActor @preconcurrency public func currentTimeMillis() -> Swift::Int
   @objc @_Concurrency::MainActor deinit
 }
-public actor TokenStore {
+@_hasMissingDesignatedInitializers public actor TokenStore {
   public init()
   public func save(accessToken: Swift::String, refreshToken: Swift::String? = nil) async
   public func saveStreamKeys(streamKey: Swift::String, streamUn: Swift::String) async

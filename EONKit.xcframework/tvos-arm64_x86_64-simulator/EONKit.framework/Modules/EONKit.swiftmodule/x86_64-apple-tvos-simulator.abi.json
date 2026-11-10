@@ -1361,9 +1361,10 @@
             "declAttributes": [
               "Preconcurrency",
               "Custom",
+              "Convenience",
               "AccessControl"
             ],
-            "init_kind": "Designated"
+            "init_kind": "Convenience"
           },
           {
             "kind": "Function",
@@ -1461,8 +1462,10 @@
           "Preconcurrency",
           "Custom",
           "Final",
-          "AccessControl"
+          "AccessControl",
+          "RawDocComment"
         ],
+        "hasMissingDesignatedInitializers": true,
         "conformances": [
           {
             "kind": "Conformance",
@@ -3662,6 +3665,7 @@
         "declAttributes": [
           "AccessControl"
         ],
+        "hasMissingDesignatedInitializers": true,
         "conformances": [
           {
             "kind": "Conformance",
@@ -22735,7 +22739,7 @@
     {
       "filePath": "\/Users\/rumen\/Work\/EONKit\/Sources\/EONKit\/Core\/Constants.swift",
       "kind": "StringLiteral",
-      "offset": 3349,
+      "offset": 3553,
       "length": 9,
       "value": "\"android\""
     },
@@ -22791,42 +22795,42 @@
     {
       "filePath": "\/Users\/rumen\/Work\/EONKit\/Sources\/EONKit\/Core\/TokenStore.swift",
       "kind": "StringLiteral",
-      "offset": 107,
+      "offset": 244,
       "length": 14,
       "value": "\"access_token\""
     },
     {
       "filePath": "\/Users\/rumen\/Work\/EONKit\/Sources\/EONKit\/Core\/TokenStore.swift",
       "kind": "StringLiteral",
-      "offset": 149,
+      "offset": 286,
       "length": 15,
       "value": "\"refresh_token\""
     },
     {
       "filePath": "\/Users\/rumen\/Work\/EONKit\/Sources\/EONKit\/Core\/TokenStore.swift",
       "kind": "StringLiteral",
-      "offset": 197,
+      "offset": 334,
       "length": 21,
       "value": "\"client_access_token\""
     },
     {
       "filePath": "\/Users\/rumen\/Work\/EONKit\/Sources\/EONKit\/Core\/TokenStore.swift",
       "kind": "StringLiteral",
-      "offset": 251,
+      "offset": 388,
       "length": 12,
       "value": "\"stream_key\""
     },
     {
       "filePath": "\/Users\/rumen\/Work\/EONKit\/Sources\/EONKit\/Core\/TokenStore.swift",
       "kind": "StringLiteral",
-      "offset": 289,
+      "offset": 426,
       "length": 11,
       "value": "\"stream_un\""
     },
     {
       "filePath": "\/Users\/rumen\/Work\/EONKit\/Sources\/EONKit\/Core\/TokenStore.swift",
       "kind": "StringLiteral",
-      "offset": 327,
+      "offset": 464,
       "length": 14,
       "value": "\"token_client\""
     },
